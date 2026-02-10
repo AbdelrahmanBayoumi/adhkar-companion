@@ -58,18 +58,20 @@ const Index = () => {
     <div className="flex min-h-screen flex-col bg-background font-body">
       <Header />
 
-      <main className="container mx-auto flex-1 px-4 py-6">
+       <main className="mx-auto max-w-2xl flex-1 px-4 py-6">
         <Tabs value={tab} onValueChange={(v) => setTab(v as TabType)}>
-          <TabsList className="mb-4 grid w-full grid-cols-2">
-            <TabsTrigger value="morning" className="font-heading">
-              {isAr ? '☀️ أذكار الصباح' : '☀️ Morning'}
-            </TabsTrigger>
-            <TabsTrigger value="evening" className="font-heading">
-              {isAr ? '🌙 أذكار المساء' : '🌙 Evening'}
-            </TabsTrigger>
-          </TabsList>
+          <div className="sticky top-[57px] z-40 -mx-4 bg-background/90 px-4 pb-3 pt-1 backdrop-blur-md">
+            <TabsList className="mb-3 grid w-full grid-cols-2">
+              <TabsTrigger value="morning" className="font-heading">
+                {isAr ? '☀️ أذكار الصباح' : '☀️ Morning'}
+              </TabsTrigger>
+              <TabsTrigger value="evening" className="font-heading">
+                {isAr ? '🌙 أذكار المساء' : '🌙 Evening'}
+              </TabsTrigger>
+            </TabsList>
 
-          <ProgressBar completed={completed} total={items.length} />
+            <ProgressBar completed={completed} total={items.length} />
+          </div>
 
           {completed > 0 && (
             <div className="mb-4 flex justify-end">
