@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Check, Play, Pause, ChevronDown, RotateCcw } from 'lucide-react';
-import { useApp } from '@/contexts/AppContext';
-import type { AdhkarItem } from '@/types/adhkar';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { Check, Play, Pause, ChevronDown, RotateCcw } from "lucide-react";
+import { useApp } from "@/contexts/AppContext";
+import type { AdhkarItem } from "@/types/adhkar";
+import { cn } from "@/lib/utils";
 
 interface Props {
   item: AdhkarItem;
@@ -12,18 +12,24 @@ interface Props {
   onReset: () => void;
 }
 
-const AdhkarCard = ({ item, index, remainingCount, onDecrement, onReset }: Props) => {
+const AdhkarCard = ({
+  item,
+  index,
+  remainingCount,
+  onDecrement,
+  onReset,
+}: Props) => {
   const { language, playAudio, playingUrl } = useApp();
-  const [fadlOpen, setFadlOpen] = useState(false);
-  const isAr = language === 'ar';
+  const [sourceOpen, setSourceOpen] = useState(false);
+  const isAr = language === "ar";
   const completed = remainingCount <= 0;
   const isPlaying = playingUrl === item.audio;
 
   return (
     <article
       className={cn(
-        'group relative rounded-xl border border-border bg-card p-5 shadow-sm transition-all duration-300 md:p-6',
-        completed && 'border-primary/40 bg-accent opacity-70'
+        "group relative rounded-xl border border-border bg-card p-5 shadow-sm transition-all duration-300 md:p-6",
+        completed && "border-primary/40 bg-accent opacity-70",
       )}
     >
       {completed && (
@@ -38,7 +44,10 @@ const AdhkarCard = ({ item, index, remainingCount, onDecrement, onReset }: Props
       </span>
 
       {/* Arabic content */}
-      <p className="mb-4 font-arabic text-xl leading-[2.2] text-foreground md:text-2xl" dir="rtl">
+      <p
+        className="mb-4 font-arabic text-xl leading-[2.2] text-foreground md:text-2xl"
+        dir="rtl"
+      >
         {item.content}
       </p>
 
@@ -49,24 +58,50 @@ const AdhkarCard = ({ item, index, remainingCount, onDecrement, onReset }: Props
         </p>
       )}
       {!isAr && item.translation && (
-        <p className="mb-4 text-sm leading-relaxed text-foreground/80" dir="ltr">
+        <p
+          className="mb-4 text-sm leading-relaxed text-foreground/80"
+          dir="ltr"
+        >
           {item.translation}
         </p>
+      )}
+
+      {/* Fadl */}
+      {item.fadl && (
+        <div className="mb-4 border-t border-border pt-3 text-sm leading-relaxed text-muted-foreground">
+          <p className={cn(isAr && "font-arabic")} dir={isAr ? "rtl" : "ltr"}>
+            {item.fadl}
+          </p>
+        </div>
       )}
 
       {/* Source accordion */}
       {item.source && (
         <div className="mb-3 border-t border-border pt-3">
           <button
-            onClick={() => setFadlOpen(!fadlOpen)}
+            onClick={() => setSourceOpen(!sourceOpen)}
+            dir="auto"
             className="flex w-full items-center justify-between text-sm font-medium text-muted-foreground"
           >
-            <span className={cn(isAr && 'font-arabic')}>{item.source}</span>
-            <ChevronDown className={cn('h-4 w-4 transition-transform', fadlOpen && 'rotate-180')} />
+            <span className={cn(isAr && "font-arabic")}>
+              {isAr ? "المصدر" : "Source"}
+            </span>
+            <ChevronDown
+              className={cn(
+                "h-4 w-4 transition-transform",
+                sourceOpen && "rotate-180",
+              )}
+            />
           </button>
-          {fadlOpen && item.fadl && (
-            <p className={cn('mt-2 text-sm leading-relaxed text-muted-foreground', isAr && 'font-arabic')} dir={isAr ? 'rtl' : 'ltr'}>
-              {item.fadl}
+          {sourceOpen && (
+            <p
+              className={cn(
+                "mt-2 text-sm leading-relaxed text-muted-foreground",
+                isAr && "font-arabic",
+              )}
+              dir={isAr ? "rtl" : "ltr"}
+            >
+              {item.source}
             </p>
           )}
         </div>
@@ -79,10 +114,10 @@ const AdhkarCard = ({ item, index, remainingCount, onDecrement, onReset }: Props
           onClick={onDecrement}
           disabled={completed}
           className={cn(
-            'flex h-12 min-w-[80px] items-center justify-center gap-2 rounded-lg px-4 text-sm font-bold transition-all',
+            "flex h-12 min-w-[80px] items-center justify-center gap-2 rounded-lg px-4 text-sm font-bold transition-all",
             completed
-              ? 'cursor-default bg-primary text-primary-foreground'
-              : 'bg-primary text-primary-foreground active:scale-95'
+              ? "cursor-default bg-primary text-primary-foreground"
+              : "bg-primary text-primary-foreground active:scale-95",
           )}
         >
           {completed ? (
@@ -104,7 +139,7 @@ const AdhkarCard = ({ item, index, remainingCount, onDecrement, onReset }: Props
           <button
             onClick={onReset}
             className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-            title={isAr ? 'إعادة' : 'Reset'}
+            title={isAr ? "إعادة" : "Reset"}
           >
             <RotateCcw className="h-4 w-4" />
           </button>
@@ -116,7 +151,11 @@ const AdhkarCard = ({ item, index, remainingCount, onDecrement, onReset }: Props
             onClick={() => playAudio(item.audio)}
             className="rounded-lg bg-secondary p-2.5 text-secondary-foreground hover:bg-secondary/80"
           >
-            {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+            {isPlaying ? (
+              <Pause className="h-5 w-5" />
+            ) : (
+              <Play className="h-5 w-5" />
+            )}
           </button>
         )}
       </div>
