@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
+
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig(({ mode }) => ({
@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === "development" && componentTagger(),
+
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico"],
@@ -26,9 +26,7 @@ export default defineConfig(({ mode }) => ({
         background_color: "#f5f0e8",
         display: "standalone",
         start_url: "/",
-        icons: [
-          { src: "/favicon.ico", sizes: "64x64", type: "image/x-icon" },
-        ],
+        icons: [{ src: "/favicon.ico", sizes: "64x64", type: "image/x-icon" }],
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,json,woff2}"],
