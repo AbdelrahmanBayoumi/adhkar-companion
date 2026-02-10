@@ -33,7 +33,7 @@ const AdhkarCard = ({ item, index, remainingCount, onDecrement, onReset }: Props
       )}
 
       {/* Order number */}
-      <span className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+      <span className="mb-3 inline-block rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
         {index + 1}
       </span>
 
@@ -54,29 +54,22 @@ const AdhkarCard = ({ item, index, remainingCount, onDecrement, onReset }: Props
         </p>
       )}
 
-      {/* Fadl accordion */}
-      {item.fadl && (
+      {/* Source accordion */}
+      {item.source && (
         <div className="mb-3 border-t border-border pt-3">
           <button
             onClick={() => setFadlOpen(!fadlOpen)}
-            className="flex w-full items-center justify-between text-sm font-medium text-primary"
+            className="flex w-full items-center justify-between text-sm font-medium text-muted-foreground"
           >
-            <span>{isAr ? 'الفضل' : 'Virtue'}</span>
+            <span className={cn(isAr && 'font-arabic')}>{item.source}</span>
             <ChevronDown className={cn('h-4 w-4 transition-transform', fadlOpen && 'rotate-180')} />
           </button>
-          {fadlOpen && (
+          {fadlOpen && item.fadl && (
             <p className={cn('mt-2 text-sm leading-relaxed text-muted-foreground', isAr && 'font-arabic')} dir={isAr ? 'rtl' : 'ltr'}>
               {item.fadl}
             </p>
           )}
         </div>
-      )}
-
-      {/* Source */}
-      {item.source && (
-        <p className={cn('mb-4 text-xs text-muted-foreground/70', isAr && 'font-arabic')} dir={isAr ? 'rtl' : 'ltr'}>
-          {item.source}
-        </p>
       )}
 
       {/* Action area */}
